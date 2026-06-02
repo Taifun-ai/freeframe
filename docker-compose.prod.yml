@@ -112,6 +112,7 @@ services:
       - S3_BUCKET=${S3_BUCKET:-freeframe}
       - S3_ACCESS_KEY=${S3_ACCESS_KEY:-minioadmin}
       - S3_SECRET_KEY=${S3_SECRET_KEY:-minioadmin}
+    user: "1000:1000"
     depends_on:
       postgres:
         condition: service_healthy
@@ -147,13 +148,13 @@ services:
       - traefik.http.routers.api-secure.tls=true
       - traefik.http.routers.api-secure.middlewares=cors-headers,strip-api-prefix
       - traefik.http.routers.api-secure.service=api
-      # CORS middleware
-      - traefik.http.middlewares.cors-headers.headers.accesscontrolalloworigins=https://spotico.taifun.ai,http://localhost:3000
-      - traefik.http.middlewares.cors-headers.headers.accesscontrolallowmethods=GET,POST,PUT,DELETE,PATCH,OPTIONS
-      - traefik.http.middlewares.cors-headers.headers.accesscontrolallowheaders=*
-      - traefik.http.middlewares.cors-headers.headers.accesscontrolexposeheaders=Content-Length,X-Total-Count
-      - traefik.http.middlewares.cors-headers.headers.accesscontrolmaxage=86400
-      - traefik.http.middlewares.cors-headers.headers.accesscontrolallowcredentials=true
+      # CORS middleware (camelCase syntax)
+      - traefik.http.middlewares.cors-headers.headers.accessControlAllowOrigins=https://spotico.taifun.ai,http://localhost:3000
+      - traefik.http.middlewares.cors-headers.headers.accessControlAllowMethods=GET,POST,PUT,DELETE,PATCH,OPTIONS
+      - traefik.http.middlewares.cors-headers.headers.accessControlAllowHeaders=*
+      - traefik.http.middlewares.cors-headers.headers.accessControlExposeHeaders=Content-Length,X-Total-Count
+      - traefik.http.middlewares.cors-headers.headers.accessControlMaxAge=86400
+      - traefik.http.middlewares.cors-headers.headers.accessControlAllowCredentials=true
       # Strip prefix
       - traefik.http.middlewares.strip-api-prefix.stripprefix.prefixes=/api
       - traefik.http.services.api.loadbalancer.server.port=8000
@@ -174,6 +175,7 @@ services:
       - S3_BUCKET=${S3_BUCKET:-freeframe}
       - S3_ACCESS_KEY=${S3_ACCESS_KEY:-minioadmin}
       - S3_SECRET_KEY=${S3_SECRET_KEY:-minioadmin}
+    user: "1000:1000"
     depends_on:
       postgres:
         condition: service_healthy
@@ -201,6 +203,7 @@ services:
       - S3_BUCKET=${S3_BUCKET:-freeframe}
       - S3_ACCESS_KEY=${S3_ACCESS_KEY:-minioadmin}
       - S3_SECRET_KEY=${S3_SECRET_KEY:-minioadmin}
+    user: "1000:1000"
     depends_on:
       redis:
         condition: service_healthy
@@ -222,6 +225,7 @@ services:
       - S3_BUCKET=${S3_BUCKET:-freeframe}
       - S3_ACCESS_KEY=${S3_ACCESS_KEY:-minioadmin}
       - S3_SECRET_KEY=${S3_SECRET_KEY:-minioadmin}
+    user: "1000:1000"
     depends_on:
       redis:
         condition: service_healthy
