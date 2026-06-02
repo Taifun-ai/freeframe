@@ -1,0 +1,30 @@
+# ============================================================
+# Traefik Dynamic Configuration — Static SSL Certificates
+# ============================================================
+# This file configures Traefik to use pre-existing SSL certificates
+# from the ./certs folder for spotico.taifun.ai domain
+
+tls:
+  certificates:
+    - certFile: /certs/fullchain.pem
+      keyFile: /certs/privateKey.txt
+      stores:
+        default: {}
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /certs/fullchain.pem
+        keyFile: /certs/privateKey.txt
+  # Optional: Set minimum TLS version for better security
+  options:
+    default:
+      minVersion: VersionTLS12
+      sniStrict: true
+
+# Optional: Configure HTTPS redirect (HTTP → HTTPS)
+http:
+  middlewares:
+    redirect-to-https:
+      redirectScheme:
+        scheme: https
+        permanent: true
