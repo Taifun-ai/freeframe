@@ -33,8 +33,8 @@ services:
     environment:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
-      MINIO_CORS_ALLOW_ORIGIN: http://localhost:3000
-      MINIO_CORS_ALLOW_METHODS: GET,PUT,POST,DELETE,HEAD
+      MINIO_CORS_ALLOW_ORIGIN: http://localhost:3000,http://localhost:3001
+      MINIO_CORS_ALLOW_METHODS: GET,PUT,POST,DELETE,HEAD,OPTIONS
       MINIO_CORS_ALLOW_HEADERS: "*"
       MINIO_CORS_EXPOSE_HEADERS: ETag,Content-Length,x-amz-request-id
     ports:
@@ -92,15 +92,6 @@ services:
       - ./packages/transcoder:/workspace/packages/transcoder
     command: >
       sh -c "cd /workspace/apps/api && alembic upgrade head && cd /workspace && uvicorn apps.api.main:app --host 0.0.0.0 --port 8000 --reload"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.api.rule=Host(`localhost`) && PathPrefix(`/api`)"
-      - "traefik.http.services.api.loadbalancer.server.port=8000"
-      - "traefik.http.middlewares.cors.headers.accessControlAllowOriginList=http://localhost:3000,http://localhost:3001"
-      - "traefik.http.middlewares.cors.headers.accessControlAllowMethods=GET,POST,PUT,DELETE,OPTIONS,PATCH"
-      - "traefik.http.middlewares.cors.headers.accessControlAllowHeaders=Content-Type,Authorization"
-      - "traefik.http.middlewares.cors.headers.accessControlMaxAge=3600"
-      - "traefik.http.routers.api.middlewares=cors@docker"
 
   worker:
     build:
