@@ -141,11 +141,11 @@ services:
       - traefik.http.routers.api.rule=PathPrefix(`/api`)
       - traefik.http.routers.api.entrypoints=web
       - traefik.http.routers.api.middlewares=strip-api-prefix
-      # HTTPS router (active with static certs)
+      # HTTPS router (active with static certs and CORS)
       - traefik.http.routers.api-secure.rule=PathPrefix(`/api`)
       - traefik.http.routers.api-secure.entrypoints=websecure
       - traefik.http.routers.api-secure.tls=true
-      - traefik.http.routers.api-secure.middlewares=strip-api-prefix
+      - traefik.http.routers.api-secure.middlewares=cors-headers,strip-api-prefix
       - traefik.http.routers.api-secure.service=api
       # Shared
       - traefik.http.middlewares.strip-api-prefix.stripprefix.prefixes=/api
