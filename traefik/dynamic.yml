@@ -21,32 +21,6 @@ tls:
       minVersion: VersionTLS12
       sniStrict: true
 
-# HTTP configuration with CORS headers
-http:
-  middlewares:
-    # CORS headers for API
-    cors-headers:
-      headers:
-        accessControlAllowOrigins:
-          - "https://spotico.taifun.ai"
-          - "http://localhost:3000"
-        accessControlAllowMethods:
-          - "GET"
-          - "POST"
-          - "PUT"
-          - "DELETE"
-          - "PATCH"
-          - "OPTIONS"
-        accessControlAllowHeaders:
-          - "*"
-        accessControlExposeHeaders:
-          - "Content-Length"
-          - "X-Total-Count"
-        accessControlMaxAge: 86400
-        accessControlAllowCredentials: true
-
-    # Redirect HTTP to HTTPS
-    redirect-to-https:
-      redirectScheme:
-        scheme: https
-        permanent: true
+# NOTE: CORS configuration is provided via Docker labels (docker-compose.prod.yml)
+# to avoid conflicts between the file provider and Docker provider. Keep this
+# file limited to TLS certificates and optional global settings.
